@@ -1,0 +1,8 @@
+git+https://github.com/reproduce-work/reproduce-work.git
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+statsmodels
+scikit-learn
