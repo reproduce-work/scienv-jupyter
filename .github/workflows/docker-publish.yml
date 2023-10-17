@@ -77,7 +77,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ["ghcr.io/${{ github.repository }}:latest"]
+          tags: ["latest"]
           platforms: linux/amd64,linux/arm64
           labels: ghcr.io/${{ github.repository }}:latest #${{ steps.meta.outputs.labels }}
           cache-from: type=gha
@@ -92,7 +92,7 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ["ghcr.io/${{ github.repository }}:latest"]
+          TAGS: ["latest"]
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
