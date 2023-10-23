@@ -2,14 +2,11 @@ FROM jupyter/base-notebook:python-3.9
 
 USER root
 
-# Modify user and directory
-RUN userdel -f jovyan && \
-    groupadd open && \
-    useradd -m -s /bin/bash -g open open && \
-    cp -r /home/jovyan/* /home/open/ && \
-    mkdir /home/private && \
-    chown -R open:open /home/private &&\
-    chown -R open:open /home/open
+# Rename the jovyan user and its home directory
+RUN usermod -l open jovyan && \
+    mv /home/jovyan /home/open && \
+    usermod -d /home/open open
+
 
 ENV NB_USER=open
 ENV HOME=/home/open
