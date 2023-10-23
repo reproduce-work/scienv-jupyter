@@ -11,6 +11,9 @@ RUN userdel -f jovyan && \
     chown -R open:open /home/private &&\
     chown -R open:open /home/open
 
+ENV NB_USER=open
+ENV HOME=/home/open
+
 # Set the password hash as an environment variable
 # Replace 'your_hashed_password_here' with the actual hash
 ENV JUPYTER_PASSWORD_HASH='argon2:$argon2id$v=19$m=10240,t=10,p=8$7F1vxYSm1p0W8gjicwVcjQ$nM00KHf35A48dhxzMZ3DNb8sP3HTYwAO3LoZcDO7LSY' 
