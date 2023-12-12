@@ -1,24 +1,6 @@
-FROM jupyter/base-notebook:python-3.9
+FROM quay.io/jupyter/base-notebook:python-3.11
 
 USER root
-
-# Rename the jovyan user and its home directory
-RUN usermod -l open jovyan && \
-    mv /home/jovyan /home/open && \
-    usermod -d /home/open open
-
-
-ENV NB_USER=open
-ENV HOME=/home/open
-
-# Set the password hash as an environment variable
-# Replace 'your_hashed_password_here' with the actual hash
-ENV JUPYTER_PASSWORD_HASH='argon2:$argon2id$v=19$m=10240,t=10,p=8$7F1vxYSm1p0W8gjicwVcjQ$nM00KHf35A48dhxzMZ3DNb8sP3HTYwAO3LoZcDO7LSY' 
-RUN echo "c.NotebookApp.password = u'$JUPYTER_PASSWORD_HASH'" >> /home/open/.jupyter/jupyter_notebook_config.py && echo "Success" || echo "Failure"
-RUN cat /home/open/.jupyter/jupyter_notebook_config.py || echo "File not found"
-
-# Update Jupyter configurations to reflect the new home directory
-#RUN sed -i 's/\/home\/jovyan/\/home\/open/g' /home/open/.jupyter/jupyter_notebook_config.py
 
 RUN apt-get -y update
 RUN apt-get -y install \
@@ -28,9 +10,8 @@ RUN apt-get -y install \
 # Install from requirements.txt file
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
 
-# Switch back to the new 'open' user as the default user
-USER open
-WORKDIR /home/open
+USER ${NB_USER}
+WORKDIR /home/jovyan
 RUN pip install --quiet --no-cache-dir --requirement /tmp/requirements.txt
 
 CMD ["jupyter", "lab"]
