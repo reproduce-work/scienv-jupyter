@@ -19,4 +19,4 @@ RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 WORKDIR /home/jovyan
 
 # Default command to run on container start
-CMD ["jupyter", "lab"]
+CMD ["jupyter", "lab", "--NotebookApp.allow_origin_pat=http://localhost:(.+)"]
